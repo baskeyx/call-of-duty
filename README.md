@@ -5,9 +5,10 @@ The purpose of this application is to capture the statistics of players on call 
 The main application will be implemented to store this data in document model format in MongoDB, however, requests can also be console.table logged out.
 
 You will need to add an .env file with the following values:
+```
 ACT_SSO_COOKIE=xxxxxxxxxxx
 MONGOURI=xxxxxxxxxx
-
+```
 The application will work in two parts:
 
 ## Add a squad member to the database
