@@ -5,7 +5,8 @@ const { mongoose } = require('./connectors/mongoose');
 const addNewSquadMate = async (tag, platform) => {
   const player = await getUnoId(tag, platform)
   mongoose.connection;
-  squadmates.create({ id: player.uno, handle: player.username });
+  await squadmates.create({ id: player.uno, handle: player.username });
+  mongoose.connection.close();
 };
 
-addNewSquadMate('Baskey x', 'xbl'); // handle, platform (xbl, psn, acti, uno)
+addNewSquadMate('baskey x', 'xbl'); // handle, platform (xbl, psn, acti, uno)

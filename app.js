@@ -12,7 +12,7 @@ const app = async () => {
     for (const match of combatHistory) {
       const { matchID } = match;
       const playExists = await plays.find({ uno, matchID });
-      if (!playExists.length) await plays.create({...match, uno});
+      if (!playExists.length) await plays.create({ ...match, uno });
     }
   }
   mongoose.connection.close();
