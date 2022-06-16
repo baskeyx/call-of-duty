@@ -4,13 +4,11 @@ const { squadmates } = require('./models/squadmates.model');
 const { getCombatHistory } = require('./modules/getCombatHistory');
 
 const app = async () => {
-  const uno = '16480142698448771586';
-  const combatHistory = await getCombatHistory(uno, 'uno');
-  // console.table(combatHistory);
   mongoose.connection;
   const squad = await squadmates.find();
   for (const squadmate of squad) {
-    const combatHistory = await getCombatHistory(squadmate.id, 'uno');
+    const uno = squadmate.id;
+    const combatHistory = await getCombatHistory(uno, 'uno');
     for (const match of combatHistory) {
       const { matchID } = match;
       const playExists = await plays.find({ uno, matchID });
