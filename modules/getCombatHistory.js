@@ -23,7 +23,7 @@ const getCombatHistory = async (handle, platform) => {
         deaths,
         assists,
         score,
-        totalXp,
+        totalXp: totalXp ? totalXp: 0,
         longestStreak,
         executions,
         damageTaken,
