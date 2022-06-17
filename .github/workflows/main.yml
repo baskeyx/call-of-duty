@@ -8,23 +8,26 @@ jobs:
         node-version: [16.x]
     runs-on: ubuntu-latest
     steps:
-steps:
-      - name: Checkout to repo
-        uses: actions/checkout@v2
-
-      - name: Setup node environment
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
-          
-      - name: Install serverless globally
-        run: npm install -g serverless
-      
-      - name: Configure serverless authentication
-        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Install npm dependencies
-        run: npm ci
-     
-      - name: Deploy lambda function
-        run: sls deploy
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build --if-present
+        env:
+          CI: true
+      - name: zip
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r ./bundle.zip ./
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+          function_name: my-function
+          zip_file: bundle.zip
