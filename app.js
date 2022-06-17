@@ -16,6 +16,7 @@ const app = async () => {
     }
   }
   mongoose.connection.close();
+  return { success: true };
 };
 
-app();
+module.exports = { app };
