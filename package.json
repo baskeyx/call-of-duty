@@ -5,8 +5,17 @@
   "author": "Dan Baskeyfield",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.1159.0",
     "call-of-duty-api": "^3.1.2",
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.4.0",
     "mongoose": "^6.3.8"
+  },
+  "devDependancies": {
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "backend": "nodemon app.js"
   }
 }

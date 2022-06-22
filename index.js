@@ -1,4 +1,4 @@
-const { app } = require('./app');
+const { dataPush } = require('./dataPush');
 
 exports.handler = async (event) => {
   // TODO implement
@@ -6,6 +6,6 @@ exports.handler = async (event) => {
   //     statusCode: 200,
   //     body: JSON.stringify('Hello from Lambda!'),
   // };
-  const response = await app();
+  const response = await dataPush();
   return response;
 };

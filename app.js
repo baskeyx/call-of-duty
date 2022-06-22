@@ -1,22 +1,22 @@
-const { mongoose } = require('./connectors/mongoose');
-const { plays } = require('./models/plays.model');
-const { squadmates } = require('./models/squadmates.model');
-const { getCombatHistory } = require('./modules/getCombatHistory');
+const express = require('express');
+const rateLimit = require('express-rate-limit');
+const app = express();
+const port = 8080;
 
-const app = async () => {
-  mongoose.connection;
-  const squad = await squadmates.find();
-  for (const squadmate of squad) {
-    const uno = squadmate.id;
-    const combatHistory = await getCombatHistory(uno, 'uno');
-    for (const match of combatHistory) {
-      const { matchID } = match;
-      const playExists = await plays.find({ uno, matchID });
-      if (!playExists.length) await plays.create({...match, uno});
-    }
-  }
-  mongoose.connection.close();
-  return { success: true };
-};
+app.use(express.json());
+const limiter = rateLimit({
+	windowMs:  60 * 1000, // 1 minute
+	max: 100, // Limit each IP to 100 requests per `window`
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: { status: 'error', message: 'Too many requests' },
+});
+app.use(limiter);
 
-module.exports = { app };
+app.get('/ping', (req, res) => {
+  res.status(200).send('Ok');
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
